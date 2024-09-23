@@ -1,6 +1,6 @@
 import 'package:repomanager/app/repomanager/application/dto/workspace.dto.dart';
 import 'package:repomanager/app/repomanager/domain/repository/workspace.repository.dart';
-import 'package:repomanager/app/repomanager/domain/use-cases/use-case.interface.dart';
+import 'package:repomanager/app/repomanager/domain/use-case/use-case.interface.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
 class WorkspaceUseCase implements IUseCaseWithoutParams<Future<List<WorkspaceDTO>>>{

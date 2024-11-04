@@ -1,6 +1,6 @@
-import 'package:repomanager/app/repomanager/domain/enum/git-estatus.enum.dart';
+import 'package:repomanager/app/repomanager/domain/enum/git_status_enum.dart';
 
-import '../../domain/entities/project.entity.dart';
+import '../../domain/entities/project_entity.dart';
 
 class ProjectDTO {
   final String path;

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/domain/enum/git-estatus.enum.dart';
+import 'package:repomanager/app/repomanager/domain/enum/git_status_enum.dart';
 
 class ProjectEntity {
   final Directory path;

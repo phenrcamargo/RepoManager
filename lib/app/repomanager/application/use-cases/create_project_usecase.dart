@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/application/dto/project.dto.dart';
-import 'package:repomanager/app/repomanager/domain/entities/project.entity.dart';
-import 'package:repomanager/app/repomanager/domain/enum/git-estatus.enum.dart';
-import 'package:repomanager/app/repomanager/domain/repository/project.repository.dart';
-import 'package:repomanager/app/repomanager/domain/use-case/use-case.interface.dart';
+import 'package:repomanager/app/repomanager/application/dto/project_dto.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
+import 'package:repomanager/app/repomanager/domain/enum/git_status_enum.dart';
+import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
+import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
 

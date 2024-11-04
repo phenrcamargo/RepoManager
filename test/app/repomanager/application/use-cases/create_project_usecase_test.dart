@@ -1,23 +1,24 @@
-
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:repomanager/app/repomanager/application/dto/project.dto.dart';
-import 'package:repomanager/app/repomanager/application/use-cases/create-project.usecase.dart';
-import 'package:repomanager/app/repomanager/domain/entities/project.entity.dart';
-import 'package:repomanager/app/repomanager/domain/enum/git-estatus.enum.dart';
-import 'package:repomanager/app/repomanager/domain/repository/project.repository.dart';
+import 'package:mockito/annotations.dart';
+import 'package:repomanager/app/repomanager/application/dto/project_dto.dart';
+import 'package:repomanager/app/repomanager/application/use-cases/create_project_usecase.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
+import 'package:repomanager/app/repomanager/domain/enum/git_status_enum.dart';
+import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
-class MockProjectRepository extends Mock implements IProjectRepository {}
+@GenerateNiceMocks([MockSpec<IProjectRepository>()])
+import 'create_project_usecase_test.mocks.dart';
 
 void main() {
-  late MockProjectRepository mockRepository;
+  late IProjectRepository mockRepository;
   late CreateProjectUseCase useCase;
 
   setUp(() {
-    mockRepository = MockProjectRepository();
+    mockRepository = MockIProjectRepository();
     useCase = CreateProjectUseCase(repository: mockRepository);
   });
 
@@ -52,9 +53,9 @@ void main() {
 
     test('should create project', () async {
       when(mockRepository.getProject(validParams.path))
-        .thenAnswer((_) async => Right(null));
+        .thenAnswer((_) async => const Right(null));
 
-      when(mockRepository.createProject(projectEntity))
+      when(mockRepository.createProject(captureAny))
         .thenAnswer((_) async => Right(projectEntity));
 
       final result = await useCase.execute(validParams);
@@ -65,10 +66,10 @@ void main() {
 
     test('should throw exception if failed to create project', () async {
       when(mockRepository.getProject(validParams.path))
-        .thenAnswer((_) async => Left(null));
+        .thenAnswer((_) async => const Left(null));
 
-      when(mockRepository.createProject(projectEntity))
-        .thenAnswer((_) async => Left(Exception('Error message')));
+      when(mockRepository.createProject(any<ProjectEntity>()))
+        .thenAnswer((_) async => const Left(null));
 
       expect(
         () => useCase.execute(validParams),

@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/domain/repository/project.repository.dart';
-import 'package:repomanager/app/repomanager/domain/use-case/use-case.interface.dart';
+import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
+import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
-import '../dto/project.dto.dart';
+import '../dto/project_dto.dart';
 
 class GetProjectUseCaseParams implements IUseCaseParams<GetProjectUseCase> {
   Directory path;

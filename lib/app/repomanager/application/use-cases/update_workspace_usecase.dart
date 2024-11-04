@@ -1,7 +1,7 @@
-import 'package:repomanager/app/repomanager/application/dto/workspace.dto.dart';
-import 'package:repomanager/app/repomanager/domain/entities/workspace.entity.dart';
-import 'package:repomanager/app/repomanager/domain/repository/workspace.repository.dart';
-import 'package:repomanager/app/repomanager/domain/use-case/use-case.interface.dart';
+import 'package:repomanager/app/repomanager/application/dto/workspace_dto.dart';
+import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
+import 'package:repomanager/app/repomanager/domain/repository/workspace_repository.dart';
+import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
 class UpdateWorkspaceUseCaseParams extends IUseCaseParams {

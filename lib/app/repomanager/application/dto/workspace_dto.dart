@@ -1,4 +1,4 @@
-import '../../domain/entities/workspace.entity.dart';
+import '../../domain/entities/workspace_entity.dart';
 
 class WorkspaceDTO {
   String name;

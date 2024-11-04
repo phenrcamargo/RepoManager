@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/domain/entities/project.entity.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
 abstract class IProjectRepository {

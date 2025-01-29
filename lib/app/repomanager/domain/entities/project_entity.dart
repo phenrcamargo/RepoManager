@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/domain/enum/git_status_enum.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_git_status_entity.dart';
 
 class ProjectEntity {
   final Directory path;
@@ -8,11 +8,7 @@ class ProjectEntity {
   final String name;
   final String description;
   final String gitBranch;
-  final GitStatusEnum gitStatus;
-  int filesAdded;
-  int filesModified;
-  int filesDeleted;
-  int filesUntracked;
+  final ProjectGitStatusEntity fileModificationStatus;
 
   ProjectEntity({
     required this.path,
@@ -20,10 +16,18 @@ class ProjectEntity {
     required this.name,
     required this.description,
     required this.gitBranch,
-    required this.gitStatus,
-    this.filesAdded = 0,
-    this.filesModified = 0,
-    this.filesDeleted = 0,
-    this.filesUntracked = 0,
+    required this.fileModificationStatus
   });
+
+  String get branchState {
+    if (fileModificationStatus.thereIsChanges) {
+      return 'MODIFIED';
+    }
+
+    if(fileModificationStatus.thereIsUntrackedChanges) {
+      return 'UNTRACKED';
+    }
+
+    return 'CLEAN';
+  }
 }

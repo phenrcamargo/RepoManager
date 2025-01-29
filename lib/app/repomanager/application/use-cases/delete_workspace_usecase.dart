@@ -11,15 +11,14 @@ class DeleteWorkspaceUseCaseParams implements IUseCaseParams<DeleteWorkspaceUseC
   DeleteWorkspaceUseCaseParams(this.workspacePath);
 }
 
-class DeleteWorkspaceUseCase implements IUseCase<Future<void>> {
+class DeleteWorkspaceUseCase implements IUseCase<Future<void>, DeleteWorkspaceUseCaseParams> {
   final IProjectRepository projectRepository;
   final IWorkspaceRepository workspaceRepository;
 
   DeleteWorkspaceUseCase({ required this.projectRepository, required this.workspaceRepository });
 
   @override
-  Future<void> execute(IUseCaseParams params) async {
-    if(params is DeleteWorkspaceUseCaseParams) {
+  Future<void> execute(DeleteWorkspaceUseCaseParams params) async {
       Either projectsResponse = await projectRepository.getProjectsByWorkspace(params.workspacePath);
 
       projectsResponse.fold(
@@ -36,9 +35,6 @@ class DeleteWorkspaceUseCase implements IUseCase<Future<void>> {
           );
         },
       );
-
-    }
-    throw Exception("Invalid params");
   }
 
 }

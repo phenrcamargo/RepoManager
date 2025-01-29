@@ -1,4 +1,3 @@
-import 'package:repomanager/app/repomanager/application/dto/project_dto.dart';
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
 import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
@@ -10,24 +9,18 @@ class UpdateProjectUseCaseParams implements IUseCaseParams<UpdateProjectUseCase>
   UpdateProjectUseCaseParams({required this.projectEntity});
 }
 
-class UpdateProjectUseCase implements IUseCase<Future<ProjectDTO>> {
+class UpdateProjectUseCase implements IUseCase<Future<ProjectEntity>, UpdateProjectUseCaseParams> {
   final IProjectRepository repository;
 
   UpdateProjectUseCase({ required this.repository} );
 
   @override
-  Future<ProjectDTO> execute(IUseCaseParams params) async {
-    if(params is UpdateProjectUseCaseParams) {
+  Future<ProjectEntity> execute(UpdateProjectUseCaseParams params) async {
       Either response = await repository.updateProject(params.projectEntity);
 
-      return response.fold<ProjectDTO>(
+      return response.fold<ProjectEntity>(
         (error) => throw Exception("Failed to update project"),
-        (value) => ProjectDTO.fromEntity(value),
+        (value) => value,
       );
-    }
-    throw Exception("Invalid params");
   }
-
-
-
 }

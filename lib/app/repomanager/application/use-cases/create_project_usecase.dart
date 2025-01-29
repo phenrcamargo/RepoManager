@@ -1,8 +1,7 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/application/dto/project_dto.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_git_status_entity.dart';
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
-import 'package:repomanager/app/repomanager/domain/enum/git_status_enum.dart';
 import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
@@ -13,20 +12,18 @@ class CreateProjectUseCaseParams implements IUseCaseParams<CreateProjectUseCase>
   final Directory workspacePath;
   final String name;
   final String description;
-  final GitStatusEnum gitStatus;
   final String gitBranch;
 
-  CreateProjectUseCaseParams(this.path, this.workspacePath, this.name, this.description, this.gitStatus, this.gitBranch);
+  CreateProjectUseCaseParams(this.path, this.workspacePath, this.name, this.description, this.gitBranch);
 }
 
-class CreateProjectUseCase implements IUseCase<Future<ProjectDTO>> {
+class CreateProjectUseCase implements IUseCase<Future<ProjectEntity>, CreateProjectUseCaseParams> {
   final IProjectRepository repository;
 
   CreateProjectUseCase({ required this.repository });
 
   @override
-  Future<ProjectDTO> execute(IUseCaseParams params) async {
-    if (params is CreateProjectUseCaseParams) {
+  Future<ProjectEntity> execute(CreateProjectUseCaseParams params) async {
       Either response = await repository.getProject(params.path);
 
       if(response.isLeft()) {
@@ -42,18 +39,16 @@ class CreateProjectUseCase implements IUseCase<Future<ProjectDTO>> {
           workspacePath: params.workspacePath,
           name: params.name,
           description: params.description,
-          gitStatus: params.gitStatus,
-          gitBranch: params.gitBranch
+          gitBranch: params.gitBranch,
+          fileModificationStatus: ProjectGitStatusEntity()
       );
 
       response = await repository.createProject(entity);
 
-      return response.fold<ProjectDTO>(
+      return response.fold<ProjectEntity>(
             (error) => throw Exception("Failed to create project"),
-            (value) => ProjectDTO.fromEntity(value),
+            (value) => value,
       );
-    }
-    throw Exception("Invalid params");
   }
 
 }

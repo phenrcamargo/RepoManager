@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/application/dto/workspace_dto.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 import 'package:repomanager/app/repomanager/domain/repository/workspace_repository.dart';
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
@@ -18,14 +17,13 @@ class CreateWorkspaceUseCaseParams implements IUseCaseParams<CreateWorkspaceUseC
   });
 }
 
-class CreateWorkspaceUseCase implements IUseCase<Future<WorkspaceDTO>> {
+class CreateWorkspaceUseCase implements IUseCase<Future<WorkSpaceEntity>, CreateWorkspaceUseCaseParams> {
   final IWorkspaceRepository repository;
 
   CreateWorkspaceUseCase({ required this.repository });
 
   @override
-  Future<WorkspaceDTO> execute(IUseCaseParams params) async {
-    if (params is CreateWorkspaceUseCaseParams) {
+  Future<WorkSpaceEntity> execute(CreateWorkspaceUseCaseParams params) async {
       Either response = await repository.getWorkspace(params.path);
 
       if(response.isLeft()) {
@@ -40,12 +38,9 @@ class CreateWorkspaceUseCase implements IUseCase<Future<WorkspaceDTO>> {
 
       response = await repository.createWorkspace(workspace);
 
-      return response.fold<WorkspaceDTO>(
+      return response.fold<WorkSpaceEntity>(
         (error) => throw Exception("Failed to create workspace"),
-        (value) => WorkspaceDTO.fromEntity(value),
+        (value) => value,
       );
-
-    }
-    throw Exception("Invalid params");
   }
 }

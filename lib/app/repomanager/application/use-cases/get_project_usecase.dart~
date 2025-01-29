@@ -5,6 +5,8 @@ import 'package:repomanager/app/repomanager/domain/repository/project_repository
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
+import '../dto/project_dto.dart';
+
 class GetProjectUseCaseParams implements IUseCaseParams<GetProjectUseCase> {
   Directory path;
   GetProjectUseCaseParams({required this.path});

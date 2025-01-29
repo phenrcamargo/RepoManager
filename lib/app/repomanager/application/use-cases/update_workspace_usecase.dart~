@@ -1,3 +1,4 @@
+import 'package:repomanager/app/repomanager/application/dto/workspace_dto.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 import 'package:repomanager/app/repomanager/domain/repository/workspace_repository.dart';
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
@@ -9,18 +10,18 @@ class UpdateWorkspaceUseCaseParams extends IUseCaseParams {
   UpdateWorkspaceUseCaseParams({required this.workspace});
 }
 
-class UpdateWorkspaceUseCase implements IUseCase<Future<WorkSpaceEntity>, UpdateWorkspaceUseCaseParams> {
+class UpdateWorkspaceUseCase implements IUseCase<Future<WorkspaceDTO>, UpdateWorkspaceUseCaseParams> {
   final IWorkspaceRepository repository;
 
   UpdateWorkspaceUseCase({required this.repository});
 
   @override
-  Future<WorkSpaceEntity> execute(UpdateWorkspaceUseCaseParams params) async {
+  Future<WorkspaceDTO> execute(UpdateWorkspaceUseCaseParams params) async {
       Either response = await repository.updateWorkspace(params.workspace);
 
       return response.fold(
           (error) => throw Exception("Failed to update workspace"),
-          (value) => value,
+          (value) => WorkspaceDTO.fromEntity(value),
       );
   }
 }

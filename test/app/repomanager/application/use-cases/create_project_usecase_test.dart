@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:repomanager/app/repomanager/application/dto/project_dto.dart';
 import 'package:repomanager/app/repomanager/application/use-cases/create_project_usecase.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_git_status_entity.dart';
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
-import 'package:repomanager/app/repomanager/domain/enum/git_status_enum.dart';
 import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
@@ -28,8 +27,8 @@ void main() {
       workspacePath: Directory('/test/workspacePath'),
       name: 'Test Project',
       description: 'Description',
-      gitStatus: GitStatusEnum.DIRTY,
       gitBranch: 'main',
+      fileModificationStatus: ProjectGitStatusEntity()
     );
 
     final validParams = CreateProjectUseCaseParams(
@@ -37,7 +36,6 @@ void main() {
       Directory('/test/workspacePath'),
       'Test Project',
       'Description',
-      GitStatusEnum.DIRTY,
       'main',
     );
 
@@ -55,12 +53,12 @@ void main() {
       when(mockRepository.getProject(validParams.path))
         .thenAnswer((_) async => const Right(null));
 
-      when(mockRepository.createProject(captureAny))
+      when(mockRepository.createProject(projectEntity))
         .thenAnswer((_) async => Right(projectEntity));
 
       final result = await useCase.execute(validParams);
 
-      expect(result, isA<ProjectDTO>());
+      expect(result, isA<ProjectEntity>());
       verify(mockRepository.createProject(projectEntity)).called(1);
     });
 
@@ -68,7 +66,7 @@ void main() {
       when(mockRepository.getProject(validParams.path))
         .thenAnswer((_) async => const Left(null));
 
-      when(mockRepository.createProject(any<ProjectEntity>()))
+      when(mockRepository.createProject(projectEntity))
         .thenAnswer((_) async => const Left(null));
 
       expect(

@@ -1,8 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
+import 'package:repomanager/app/repomanager/domain/entities/project_git_status_entity.dart';
+import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
 import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
 import 'package:repomanager/app/repomanager/shared/widgets/form/default_button_widget.dart';
 import 'package:repomanager/app/repomanager/shared/widgets/form/select_input_widget.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/reuse/icon_text_widget.dart';
+import 'package:repomanager/app/repomanager/shared/widgets/reuse/project_card_widget.dart';
+import 'package:repomanager/app/repomanager/shared/widgets/structure/add_project_window.dart';
+
 import 'package:repomanager/app/repomanager/shared/widgets/structure/header_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +23,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final HomeStore homeStore = Provider.of<HomeStore>(context);
     final theme = context.theme;
+
+    final ProjectEntity projectEntity = ProjectEntity(
+      path: Directory.current,
+      workspacePath: Directory.current,
+      name: "Test Project",
+      description: "Description of the project",
+      gitBranch: "main",
+      fileModificationStatus: ProjectGitStatusEntity(),
+    );
 
     return Scaffold(
       body: Column(
@@ -43,6 +61,7 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -54,104 +73,27 @@ class _HomePageState extends State<HomePage> {
                         const Spacer(),
                         DefaultButtonWidget(
                           text: 'Add Project',
-                          onClicked: () {},
+                          onClicked: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) => AddProjectWindow(),
+                            );
+                          },
                         ),
                       ],
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Stack(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(60),
-                            border: Border.all(
-                                color: theme.colorScheme.primary, width: 2),
-                            color: theme.cardColor,
-                          ),
-                          width: double.infinity,
-                          height: 80,
-                          padding: const EdgeInsets.only(left: 20, top: 30),
-                          child: Row(
-                            children: [
-                              Row(
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: "Branch: ",
-                                            style: theme.textTheme.bodySmall
-                                                ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                color: theme.colorScheme
-                                                    .onPrimaryContainer),
-                                          ),
-                                          TextSpan(
-                                            text: "main",
-                                            style: theme.textTheme.bodySmall,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20,),
-                                    IconText(
-                                      icon: Icons.add_box,
-                                      color: Colors.green,
-                                      text: "2",
-                                    ),
-                                    IconText(
-                                      icon: Icons.edit,
-                                      color: Colors.green,
-                                      text: "2",
-                                    ),
-                                    IconText(
-                                      icon: Icons.delete_forever_rounded,
-                                      color: Colors.green,
-                                      text: "2",
-                                    ),
-                                    const SizedBox(width: 20,),
-                                    IconText(
-                                      icon: Icons.edit,
-                                      color: Colors.deepOrangeAccent,
-                                      text: "2",
-                                    ),
-                                    IconText(
-                                      icon: Icons.delete_forever_rounded,
-                                      color: Colors.deepOrangeAccent,
-                                      text: "2",
-                                    ),
-                                    const SizedBox(width: 20,),
-                                    IconText(
-                                      icon: Icons.question_mark_outlined,
-                                      color: Colors.red,
-                                      text: "2",
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(60),
-                            border: Border.all(
-                                color: theme.colorScheme.primary, width: 2),
-                            color: theme.colorScheme.primaryContainer,
-                          ),
-                          width: double.infinity,
-                          height: 40,
-                          padding: const EdgeInsets.only(left: 20, top: 5),
-                          child: Text(
-                            "Project 1",
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onPrimaryContainer),
-                          ),
-                        ),
-                      ],
-                    ),
+                    if(homeStore.projects.isEmpty)
+                      Text("No projects yet", style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.normal),),
+                    if(homeStore.projects.isNotEmpty)
+                      ListView.builder(
+                        itemCount: homeStore.projects.length,
+                        itemBuilder: (_, index) {
+                          return ProjectCardWidget(project: homeStore.projects[index]);
+                        },
+                      ),
                   ],
                 ),
               ],

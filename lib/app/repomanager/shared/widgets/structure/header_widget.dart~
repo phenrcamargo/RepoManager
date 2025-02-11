@@ -35,18 +35,15 @@ class HeaderWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Visibility(
-              visible: false,
-              child: GestureDetector(
-                onTap: () {},
-                child: CircleAvatar(
-                  radius: 35,
-                  backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                    color: theme.colorScheme.primary,
-                  ),
+            GestureDetector(
+              onTap: () {},
+              child: CircleAvatar(
+                radius: 35,
+                backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
+                child: Icon(
+                  Icons.person,
+                  size: 40,
+                  color: theme.colorScheme.primary,
                 ),
               ),
             ),

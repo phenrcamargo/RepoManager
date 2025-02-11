@@ -6,7 +6,6 @@ import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.d
 import 'package:repomanager/app/repomanager/shared/injector/injector_configurator.dart';
 
 void main() async  {
-  WidgetsFlutterBinding.ensureInitialized();
   _configureDependencyInjector();
   await _configureWindowManager();
   runApp(
@@ -22,6 +21,7 @@ void main() async  {
 void _configureDependencyInjector() => InjectorConfigurator.configure();
 
 Future<void> _configureWindowManager() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(

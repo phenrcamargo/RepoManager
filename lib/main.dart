@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:repomanager/app/repomanager/domain/datasource/database_config.dart';
+import 'package:repomanager/app/repomanager/shared/injector/injector.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:repomanager/app/repomanager/my_app.dart';
 import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
 import 'package:repomanager/app/repomanager/shared/injector/injector_configurator.dart';
 
 void main() async  {
-  WidgetsFlutterBinding.ensureInitialized();
   _configureDependencyInjector();
+  await _initDatabase();
   await _configureWindowManager();
   runApp(
     MultiProvider(
@@ -21,7 +23,10 @@ void main() async  {
 
 void _configureDependencyInjector() => InjectorConfigurator.configure();
 
+Future<void> _initDatabase() async => await Injector.instance.get<IDatabaseConfig>()?.init();
+
 Future<void> _configureWindowManager() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(

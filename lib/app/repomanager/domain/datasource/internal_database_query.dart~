@@ -1,0 +1,17 @@
+import 'dart:io';
+
+import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
+import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
+
+abstract class InternalDatabaseQuery {
+  Future<List<dynamic>> getWorkSpaces();
+  Future<List<dynamic>> getProjects();
+  Future<List<dynamic>> getProjectsByWorkspace(Directory workspacePath);
+  Future<List<dynamic>> getProjectByPath(Directory path);
+  Future<dynamic> createWorkSpace(WorkSpaceEntity workSpaceEntity);
+  Future<dynamic> updateWorkSpace(WorkSpaceEntity workSpaceEntity);
+  Future<dynamic> deleteWorkSpace(Directory path);
+  Future<dynamic> createProject(ProjectEntity project);
+  Future<dynamic> updateProject(ProjectEntity project);
+  Future<dynamic> deleteProject(Directory path, Directory workspacePath);
+}

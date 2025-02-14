@@ -19,6 +19,15 @@ class ProjectEntity {
     required this.fileModificationStatus
   });
 
+  factory ProjectEntity.fromMap(Map<String, dynamic> map) => ProjectEntity(
+      path: Directory(map['path']),
+      workspacePath: Directory(map['workspacePath']),
+      name: map['name'],
+      description: map['description'],
+      gitBranch: map['gitBranch'],
+      fileModificationStatus: ProjectGitStatusEntity.fromMap(map['fileModificationStatus'])
+  );
+
   String get branchState {
     if (fileModificationStatus.thereIsChanges) {
       return 'MODIFIED';
@@ -30,4 +39,13 @@ class ProjectEntity {
 
     return 'CLEAN';
   }
+
+  Map<String, dynamic> toMap() => {
+    'path': path.path,
+    'workspacePath': workspacePath.path,
+    'name': name,
+    'description': description,
+    'gitBranch': gitBranch,
+    'fileModificationStatus': fileModificationStatus.toMap()
+  };
 }

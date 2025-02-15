@@ -3,10 +3,10 @@ import 'package:repomanager/app/repomanager/domain/repository/workspace_reposito
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
-class WorkspaceUseCase implements IUseCaseWithoutParams<Future<List<WorkSpaceEntity>>>{
+class GetAllWorkspaceUseCase implements IUseCaseWithoutParams<Future<List<WorkSpaceEntity>>>{
   final IWorkspaceRepository repository;
 
-  WorkspaceUseCase({ required this.repository });
+  GetAllWorkspaceUseCase({ required this.repository });
 
   @override
   Future<List<WorkSpaceEntity>> execute() async{

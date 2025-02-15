@@ -4,10 +4,10 @@ import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.d
 
 import '../../shared/either/either.dart';
 
-class GetProjectsUseCase implements IUseCaseWithoutParams<Future<List<ProjectEntity>>>{
+class GetAllProjectsUseCase implements IUseCaseWithoutParams<Future<List<ProjectEntity>>>{
   final IProjectRepository repository;
 
-  GetProjectsUseCase({
+  GetAllProjectsUseCase({
     required this.repository
   });
 

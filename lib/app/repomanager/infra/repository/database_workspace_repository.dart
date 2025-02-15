@@ -10,15 +10,11 @@ import 'package:sembast/sembast.dart';
 
 class DatabaseWorkspaceRepository extends IWorkspaceRepository {
 
-  late final IDatabaseConfig<Database> _database;
+  final IDatabaseConfig<Database> _database;
   late final Database _databaseInstance;
   late final StoreRef _store;
 
-  DatabaseWorkspaceRepository(
-      IDatabaseConfig<Database>? databaseConfig
-  ) {
-    if (databaseConfig == null) throw Exception("Database config must not be null");
-    _database = databaseConfig;
+  DatabaseWorkspaceRepository(this._database) {
     _databaseInstance = _database.getDatabase;
     _store = intMapStoreFactory.store('workspaces');
   }

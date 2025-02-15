@@ -1,5 +1,6 @@
 import 'dart:io';
 
+
 class WorkSpaceEntity {
   Directory path;
   String name;
@@ -10,4 +11,10 @@ class WorkSpaceEntity {
     required this.name,
     this.description,
   });
+
+  factory WorkSpaceEntity.fromMap(Map<String, dynamic> map) => WorkSpaceEntity(
+    path: Directory(map['path']),
+    name: map['name'],
+    description: map['description'],
+  );
 }

@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:repomanager/app/repomanager/domain/datasource/database_config.dart';
+import 'package:repomanager/app/repomanager/domain/database/database_config.dart';
 
 class SembastConfig extends IDatabaseConfig<Database> {
   Database? _database;

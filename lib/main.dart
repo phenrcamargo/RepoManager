@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repomanager/app/repomanager/domain/datasource/database_config.dart';
 import 'package:repomanager/app/repomanager/shared/injector/injector.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:repomanager/app/repomanager/my_app.dart';
 import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
 import 'package:repomanager/app/repomanager/shared/injector/injector_configurator.dart';
+
+import 'app/repomanager/domain/database/database_config.dart';
 
 void main() async  {
   _configureDependencyInjector();

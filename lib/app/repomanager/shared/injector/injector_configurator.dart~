@@ -13,6 +13,6 @@ class InjectorConfigurator {
 
     injector.register<IDatabaseConfig<Database>>(SembastConfig());
     injector.register<IProjectRepository>(DatabaseProjectRepository(injector.get<IDatabaseConfig<Database>>()));
-    injector.register<IWorkspaceRepository>(DatabaseWorkspaceRepository(injector.get<IDatabaseConfig<Database>>()));
+    injector.register<IWorkspaceRepository>(DatabaseWorkspaceRepository(injector.get<IDatabaseConfig<Database>>())));
   }
 }

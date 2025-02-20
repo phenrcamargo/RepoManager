@@ -10,22 +10,25 @@ import 'package:repomanager/app/repomanager/shared/injector/injector.dart';
 import 'package:sembast/sembast.dart';
 
 class InjectorConfigurator {
-  static void configure(Injector injector) {
-    _registerDatabase(injector);
-    _registerRepositories(injector);
-    _registerUseCases(injector);
+  static void configure() {
+    _registerDatabase();
+    _registerRepositories();
+    _registerUseCases();
   }
 
-  static void _registerDatabase(Injector injector) {
+  static void _registerDatabase() {
+    final injector = Injector.instance;
     injector.register<IDatabaseConfig<Database>>(Bind.singleton(SembastConfig()));
   }
 
-  static void _registerRepositories(Injector injector) {
+  static void _registerRepositories() {
+    final injector = Injector.instance;
     injector.register<IProjectRepository>(Bind.factory(() => DatabaseProjectRepository(injector.get<IDatabaseConfig<Database>>())));
     injector.register<IWorkspaceRepository>(Bind.factory(() => DatabaseWorkspaceRepository(injector.get<IDatabaseConfig<Database>>())));
   }
 
-  static void _registerUseCases(Injector injector) {
+  static void _registerUseCases() {
+    final injector = Injector.instance;
     injector.register<CreateProjectUseCase>(
       Bind.lazySingleton(
             () => CreateProjectUseCase(repository: injector.get<IProjectRepository>()),

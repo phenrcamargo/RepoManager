@@ -36,6 +36,6 @@ class Injector {
       throw Exception("Dependency ${T.toString()} not found in Injector.");
     }
 
-    return bind.getInstance();
+    return bind.instance ?? bind.factory!();
   }
 }

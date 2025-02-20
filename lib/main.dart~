@@ -28,7 +28,7 @@ Future<void> _configureDependencyInjector() async {
 }
 
 Future<void> _initDatabase() async {
-  await Injector.instance.get<IDatabaseConfig>().init();
+  await Injector.instance.get<IDatabaseConfig>()?.init();
 }
 
 Future<void> _configureWindowManager() async {

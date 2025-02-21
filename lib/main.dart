@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repomanager/app/repomanager/shared/injector/injector.dart';
+import 'package:sembast/sembast.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:repomanager/app/repomanager/my_app.dart';
 import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
@@ -28,7 +29,7 @@ Future<void> _configureDependencyInjector() async {
 }
 
 Future<void> _initDatabase() async {
-  await Injector.instance.get<IDatabaseConfig>().init();
+  await Injector.instance.get<IDatabaseConfig<Database>>().init();
 }
 
 Future<void> _configureWindowManager() async {

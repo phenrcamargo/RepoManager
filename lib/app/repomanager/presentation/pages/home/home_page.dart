@@ -10,6 +10,7 @@ import 'package:repomanager/app/repomanager/shared/widgets/form/default_button_w
 import 'package:repomanager/app/repomanager/shared/widgets/form/select_input_widget.dart';
 import 'package:repomanager/app/repomanager/shared/widgets/reuse/project_card_widget.dart';
 import 'package:repomanager/app/repomanager/shared/widgets/structure/add_project_window.dart';
+import 'package:repomanager/app/repomanager/shared/widgets/structure/add_workspace_window.dart';
 
 import 'package:repomanager/app/repomanager/shared/widgets/structure/header_widget.dart';
 
@@ -23,17 +24,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final HomeStore homeStore = Provider.of<HomeStore>(context);
     final theme = context.theme;
-
-    final ProjectEntity projectEntity = ProjectEntity(
-      path: Directory.current,
-      workspacePath: Directory.current,
-      name: "Test Project",
-      description: "Description of the project",
-      gitBranch: "main",
-      fileModificationStatus: ProjectGitStatusEntity(),
-    );
+    final homeStore = context.watch<HomeStore>();
 
     return Scaffold(
       body: Column(
@@ -53,7 +45,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     DefaultButtonWidget(
                       text: 'Add Workspace',
-                      onClicked: () {},
+                      onClicked: () {
+                        showDialog(context: context, builder: (_) => AddWorkspaceWindow(),);
+                      },
                     ),
                   ],
                 ),
@@ -68,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "Projects",
                           style: theme.textTheme.bodySmall
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                              ?.copyWith(fontWeight: FontWeight.bold, color: theme.colorScheme.onPrimaryContainer),
                         ),
                         const Spacer(),
                         DefaultButtonWidget(
@@ -86,13 +80,22 @@ class _HomePageState extends State<HomePage> {
                       height: 10,
                     ),
                     if(homeStore.projects.isEmpty)
-                      Text("No projects yet", style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.normal),),
+                      Text("No projects yet", style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.normal, color: theme.colorScheme.onPrimaryContainer),),
                     if(homeStore.projects.isNotEmpty)
-                      ListView.builder(
-                        itemCount: homeStore.projects.length,
-                        itemBuilder: (_, index) {
-                          return ProjectCardWidget(project: homeStore.projects[index]);
-                        },
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxHeight: 300,
+                        ),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: homeStore.projects.length,
+                          itemBuilder: (_, index) {
+                            return SizedBox(
+                                height: 120, // Ajuste conforme necessário
+                                child: ProjectCardWidget(project: homeStore.projects[index]),
+                            );
+                          },
+                        ),
                       ),
                   ],
                 ),

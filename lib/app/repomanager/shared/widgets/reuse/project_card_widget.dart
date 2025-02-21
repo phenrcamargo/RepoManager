@@ -44,7 +44,7 @@ class ProjectCardWidget extends StatelessWidget {
                         ),
                         TextSpan(
                           text: "main",
-                          style: theme.textTheme.bodySmall,
+                          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onPrimaryContainer),
                         ),
                       ],
                     ),

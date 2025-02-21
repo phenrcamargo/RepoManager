@@ -35,6 +35,10 @@ class _DirectoryPickerFormState extends State<DirectoryPickerWidget> {
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: _selectedDirectory ?? 'Chose a directory',
+              prefixIcon: Tooltip(
+                message: _selectedDirectory ?? 'Chose a directory',
+                child: const Icon(Icons.info),
+              )
             ),
           ),
         ),
@@ -44,10 +48,10 @@ class _DirectoryPickerFormState extends State<DirectoryPickerWidget> {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-              backgroundColor: theme.colorScheme.onSecondaryContainer,
+              backgroundColor: theme.colorScheme.onPrimaryContainer,
             ),
             onPressed: _pickDirectory,
-            child: Icon(Icons.folder, color: theme.colorScheme.primaryContainer),
+            child: Icon(Icons.folder, color: theme.colorScheme.surface),
           ),
         ),
       ],

@@ -1,10 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 
+import '../../../domain/entities/project_git_status_entity.dart';
+
 class HomeStore extends ChangeNotifier {
   late WorkSpaceEntity _workSpaceEntity;
-  final List<ProjectEntity> _projects = [];
+  final List<ProjectEntity> _projects = [
+    ProjectEntity(
+      path: Directory.current,
+      workspacePath: Directory.current,
+      name: "Test Project",
+      description: "Description of the project",
+      gitBranch: "main",
+      fileModificationStatus: ProjectGitStatusEntity(),
+    )
+  ];
 
   WorkSpaceEntity get workSpaceEntity => _workSpaceEntity;
   List<ProjectEntity> get projects => List.unmodifiable(_projects);

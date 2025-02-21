@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:repomanager/app/repomanager/shared/route/routes.dart';
 
 class MyApp extends StatelessWidget {
-  final bool isDarkTheme = false;
+  final bool isDarkTheme = true;
 
   const MyApp({super.key});
 

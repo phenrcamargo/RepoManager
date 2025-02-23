@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
-import 'package:repomanager/app/repomanager/domain/entities/project_git_status_entity.dart';
+import 'package:repomanager/app/repomanager/presentation/pages/home/home_presenter.dart';
 import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
 import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
 import 'package:repomanager/app/repomanager/shared/widgets/form/default_button_widget.dart';
@@ -26,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final homeStore = context.watch<HomeStore>();
+    final homePresenter = HomePresenter(homeStore);
 
     return Scaffold(
       body: Column(
@@ -39,14 +39,23 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SelectInputWidget(),
+                    SelectInputWidget(
+                      items: homeStore.workSpaces.map((e) => e.name).toList(),
+                    ),
                     const SizedBox(
                       width: 10,
                     ),
                     DefaultButtonWidget(
                       text: 'Add Workspace',
                       onClicked: () {
-                        showDialog(context: context, builder: (_) => AddWorkspaceWindow(),);
+                        showDialog(
+                          context: context,
+                          builder: (_) => AddWorkspaceWindow(
+                            onSubmit: (workspace) {
+                              homePresenter.addWorkspace(workspace);
+                            },
+                          ),
+                        );
                       },
                     ),
                   ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repomanager/app/repomanager/shared/injector/injector.dart';
+import 'package:repomanager/app/repomanager/shared/theme/theme_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:repomanager/app/repomanager/my_app.dart';
@@ -17,6 +18,7 @@ void main() async  {
     MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => HomeStore()),
+          ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],
         child: const MyApp(),
     ),

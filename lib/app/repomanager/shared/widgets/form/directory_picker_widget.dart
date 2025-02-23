@@ -3,7 +3,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
 
 class DirectoryPickerWidget extends StatefulWidget {
-  const DirectoryPickerWidget({super.key});
+  final TextEditingController directoryController;
+  final FormFieldValidator<String>? validate;
+
+  const DirectoryPickerWidget(this.directoryController, this.validate, {super.key});
 
   @override
   _DirectoryPickerFormState createState() => _DirectoryPickerFormState();
@@ -18,6 +21,7 @@ class _DirectoryPickerFormState extends State<DirectoryPickerWidget> {
     if (directoryPath != null) {
       setState(() {
         _selectedDirectory = directoryPath;
+        widget.directoryController.text = directoryPath;
       });
     }
   }
@@ -31,7 +35,9 @@ class _DirectoryPickerFormState extends State<DirectoryPickerWidget> {
       children: [
         Expanded(
           child: TextFormField(
+            controller: widget.directoryController,
             readOnly: true,
+            validator: widget.validate,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
               hintText: _selectedDirectory ?? 'Chose a directory',

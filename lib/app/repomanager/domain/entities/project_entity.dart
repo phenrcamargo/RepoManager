@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:repomanager/app/repomanager/domain/entities/project_git_status_entity.dart';
 
 class ProjectEntity {
@@ -11,17 +12,17 @@ class ProjectEntity {
   final ProjectGitStatusEntity fileModificationStatus;
 
   ProjectEntity({
-    required this.path,
-    required this.workspacePath,
+    required Directory path,
+    required Directory workspacePath,
     required this.name,
     required this.description,
     required this.gitBranch,
     required this.fileModificationStatus
-  });
+  }) : path = Directory(p.normalize(path.path)), workspacePath = Directory(p.normalize(workspacePath.path));
 
   factory ProjectEntity.fromMap(Map<String, dynamic> map) => ProjectEntity(
-      path: Directory(map['path']),
-      workspacePath: Directory(map['workspacePath']),
+      path: Directory(p.normalize(map['path'])),
+      workspacePath: Directory(p.normalize(map['workspacePath'])),
       name: map['name'],
       description: map['description'],
       gitBranch: map['gitBranch'],
@@ -41,7 +42,7 @@ class ProjectEntity {
   }
 
   Map<String, dynamic> toMap() => {
-    'path': path.path,
+    'path': p.normalize(path.path),
     'workspacePath': workspacePath.path,
     'name': name,
     'description': description,

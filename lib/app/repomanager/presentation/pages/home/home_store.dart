@@ -1,29 +1,24 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 
-import '../../../domain/entities/project_git_status_entity.dart';
-
 class HomeStore extends ChangeNotifier {
-  late WorkSpaceEntity _workSpaceEntity;
-  final List<ProjectEntity> _projects = [
-    ProjectEntity(
-      path: Directory.current,
-      workspacePath: Directory.current,
-      name: "Test Project",
-      description: "Description of the project",
-      gitBranch: "main",
-      fileModificationStatus: ProjectGitStatusEntity(),
-    )
-  ];
+  late WorkSpaceEntity _selectedWorkSpace;
+  final List<WorkSpaceEntity> _workSpaces = [];
+  final List<ProjectEntity> _projects = [];
 
-  WorkSpaceEntity get workSpaceEntity => _workSpaceEntity;
+  WorkSpaceEntity get selectedWorkSpace => _selectedWorkSpace;
+  List<WorkSpaceEntity> get workSpaces => List.unmodifiable(_workSpaces);
   List<ProjectEntity> get projects => List.unmodifiable(_projects);
 
-  void setWorkSpaceEntity(WorkSpaceEntity workSpaceEntity) {
-    _workSpaceEntity = workSpaceEntity;
+  void setSelectedWorkspace(WorkSpaceEntity workSpaceEntity) {
+    _selectedWorkSpace = workSpaceEntity;
+    notifyListeners();
+  }
+
+  void setWorkspaces(List<WorkSpaceEntity> workspaces) {
+    _workSpaces.clear();
+    _workSpaces.addAll(workspaces);
     notifyListeners();
   }
 
@@ -33,8 +28,18 @@ class HomeStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void addWorkspace(WorkSpaceEntity workspace) {
+    _workSpaces.add(workspace);
+    notifyListeners();
+  }
+
   void addProject(ProjectEntity project) {
     _projects.add(project);
+    notifyListeners();
+  }
+
+  void removeWorkspace(WorkSpaceEntity workspace) {
+    _workSpaces.remove(workspace);
     notifyListeners();
   }
 
@@ -43,9 +48,15 @@ class HomeStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProjectList(List<ProjectEntity> projectos) {
+  void updateWorkspaceList(List<WorkSpaceEntity> workspaces) {
+    _workSpaces.clear();
+    _workSpaces.addAll(workspaces);
+    notifyListeners();
+  }
+
+  void updateProjectList(List<ProjectEntity> projects) {
     _projects.clear();
-    _projects.addAll(projectos);
+    _projects.addAll(projects);
     notifyListeners();
   }
 }

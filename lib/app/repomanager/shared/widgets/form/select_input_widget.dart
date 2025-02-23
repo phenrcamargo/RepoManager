@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
 
 class SelectInputWidget extends StatefulWidget {
-  const SelectInputWidget({super.key});
+  final List<String> items;
+  const SelectInputWidget({super.key, required this.items});
 
   @override
   State<SelectInputWidget> createState() => _SelectInputWidgetState();
 }
 
 class _SelectInputWidgetState extends State<SelectInputWidget> {
-  final List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-  String? selectedItem;
-
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final List<String> items = widget.items;
+    String? selectedItem;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +42,7 @@ class _SelectInputWidgetState extends State<SelectInputWidget> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 focusColor: theme.cardColor,
                 value: selectedItem,
-                hint: const Text('Select a workspace'),
+                hint: items.isEmpty ? const Text("No items yet") : const Text("Select a item"),
                 items: items.map((item) {
                   return DropdownMenuItem<String>(
                     alignment: Alignment.centerLeft,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/shared/theme/theme_provider.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});
@@ -7,6 +9,7 @@ class HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final themeProvider = context.watch<ThemeProvider>();
 
     return Container(
       decoration: BoxDecoration(
@@ -35,20 +38,20 @@ class HeaderWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Visibility(
-              visible: false,
-              child: GestureDetector(
-                onTap: () {},
-                child: CircleAvatar(
-                  radius: 35,
-                  backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
-                  child: Icon(
-                    Icons.person,
-                    size: 40,
-                    color: theme.colorScheme.primary,
-                  ),
+            Row(
+              children: [
+                Icon(
+                  themeProvider.isDarkTheme ? Icons.dark_mode : Icons.light_mode,
+                  color: theme.colorScheme.primary,
                 ),
-              ),
+                const SizedBox(width: 10,),
+                Switch(
+                  value: themeProvider.isDarkTheme,
+                  onChanged: (_) {
+                    themeProvider.toggleTheme();
+                  },
+                )
+              ],
             ),
           ],
         ),

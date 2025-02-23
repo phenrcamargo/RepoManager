@@ -1,8 +1,13 @@
 import 'dart:io';
 
+import 'package:repomanager/app/repomanager/application/failure/usecase_failure.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
+import 'package:repomanager/app/repomanager/domain/failure/failure.dart';
 import 'package:repomanager/app/repomanager/domain/repository/workspace_repository.dart';
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
+import 'package:repomanager/app/repomanager/infra/failure/already_exists_failure.dart';
+import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
+import 'package:repomanager/app/repomanager/infra/failure/not_found_failure.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
 
 class CreateWorkspaceUseCaseParams implements IUseCaseParams<CreateWorkspaceUseCase> {
@@ -17,30 +22,26 @@ class CreateWorkspaceUseCaseParams implements IUseCaseParams<CreateWorkspaceUseC
   });
 }
 
-class CreateWorkspaceUseCase implements IUseCase<Future<WorkSpaceEntity>, CreateWorkspaceUseCaseParams> {
+class CreateWorkspaceUseCase implements IUseCase<Future<Either<Failure, WorkSpaceEntity>>, CreateWorkspaceUseCaseParams> {
   final IWorkspaceRepository repository;
 
   CreateWorkspaceUseCase({ required this.repository });
 
   @override
-  Future<WorkSpaceEntity> execute(CreateWorkspaceUseCaseParams params) async {
-      Either response = await repository.getWorkspace(params.path);
+  Future<Either<Failure, WorkSpaceEntity>> execute(CreateWorkspaceUseCaseParams params) async {
+      final response = await repository.getWorkspace(params.path);
 
-      if(response.isLeft()) {
-        throw Exception("Failed to get workspace for unique verification");
-      }
+      return await response.fold(
+        (failure) async {
+          if (failure is! NotFoundFailure) {
+            return Left(DatabaseFailure("Failed to get project for unique verification"));
+          }
 
-      if(response.getRight() != null) {
-        throw Exception("Workspace already exists");
-      }
+          final entity = WorkSpaceEntity(path: params.path, name: params.name, description: params.description);
 
-      WorkSpaceEntity workspace = WorkSpaceEntity(path: params.path, name: params.name, description: params.description);
-
-      response = await repository.createWorkspace(workspace);
-
-      return response.fold<WorkSpaceEntity>(
-        (error) => throw Exception("Failed to create workspace"),
-        (value) => value,
+          return await repository.createWorkspace(entity);
+        },
+        (project) => Left(AlreadyExistsFailure("Workspace already exists")),
       );
   }
 }

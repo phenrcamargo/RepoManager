@@ -1,69 +1,80 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 import 'package:repomanager/app/repomanager/shared/widgets/form/directory_picker_widget.dart';
+import 'package:repomanager/app/repomanager/shared/widgets/structure/add_window.dart';
 
 class AddWorkspaceWindow extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController _directoryController = TextEditingController();
+  final TextEditingController _workspaceNameController = TextEditingController();
+  final TextEditingController _workspaceDescriptionController = TextEditingController();
+  final Function(WorkSpaceEntity) onSubmit;
 
-  AddWorkspaceWindow({super.key});
+  AddWorkspaceWindow({super.key, required this.onSubmit});
 
   @override
   Widget build(BuildContext context) {
-    Size size = context.getSize;
-    ThemeData theme = context.theme;
-
-    return Dialog(
-      child: Container(
-        decoration: BoxDecoration(
-          color: theme.cardTheme.color,
-          borderRadius: BorderRadius.circular(25),
-          border: Border.all(color: theme.colorScheme.primaryContainer, width: 2),
-        ),
-        padding: const EdgeInsets.all(16),
-        width: size.width * 0.5,
-        height: size.height * 0.5,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  color: theme.colorScheme.onPrimaryContainer,
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-            Text(
-              'Add Workspace',
-              style: theme.textTheme.headlineMedium?.copyWith(color: theme.colorScheme.onPrimaryContainer, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20,),
-            Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  const DirectoryPickerWidget(),
-                  const SizedBox(height: 20,),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Workspace Name',
-                    ),
-                  ),
-                  const SizedBox(height: 20,),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Workspace Description',
-                    ),
-                  ),
-                ],
+    return AddWindow(
+        title: 'Add Workspace',
+        addForm: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              DirectoryPickerWidget(
+                _directoryController,
+                (value) {
+                  if(value == null || value.isEmpty) {
+                    return 'Please select a directory';
+                  }
+                  return null;
+                }
               ),
-            )
-          ],
+              const SizedBox(height: 20,),
+              TextFormField(
+                controller: _workspaceNameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Workspace Name',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a workspace name';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20,),
+              TextFormField(
+                controller: _workspaceDescriptionController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Workspace Description',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a workspace description';
+                  }
+                  return null;
+                },
+              ),
+              ElevatedButton(
+                child: const Text('Create Workspace'),
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    onSubmit(WorkSpaceEntity(
+                      path: Directory(_directoryController.text),
+                      name: _workspaceNameController.text,
+                      description: _workspaceDescriptionController.text,
+                    ));
+                    Navigator.of(context).pop();
+                  } 
+                },                
+              ),
+            ],
+          ),
         ),
-      ),
     );
   }
 }

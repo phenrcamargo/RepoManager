@@ -5,16 +5,19 @@ import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart'
 import 'package:repomanager/app/repomanager/domain/failure/failure.dart';
 import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
 import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
+import 'package:repomanager/app/repomanager/infra/failure/invalid_format_failure.dart';
+import 'package:repomanager/app/repomanager/infra/failure/not_found_failure.dart';
 import 'package:repomanager/app/repomanager/shared/either/either.dart';
+import 'package:path/path.dart' as p;
 import 'package:sembast/sembast.dart';
 
-class DatabaseProjectRepository extends IProjectRepository {
+class SembastProjectRepository extends IProjectRepository {
 
   final IDatabaseConfig<Database> _database;
   late final Database _databaseInstance;
   late final StoreRef _store;
 
-  DatabaseProjectRepository(this._database) {
+  SembastProjectRepository(this._database) {
     _databaseInstance = _database.getDatabase;
     _store = intMapStoreFactory.store('projects');
   }
@@ -32,10 +35,13 @@ class DatabaseProjectRepository extends IProjectRepository {
   @override
   Future<Either<Failure, int>> deleteProject(Directory path, Directory workspacePath) async {
     try {
+      final normalizedProjectPath = p.normalize(path.path);
+      final normalizedWorkspacePath = p.normalize(workspacePath.path);
+
       final finder = Finder(
         filter: Filter.and([
-          Filter.equals('path', path.path),
-          Filter.equals('workspacePath', workspacePath.path),
+          Filter.equals('path', normalizedProjectPath),
+          Filter.equals('workspacePath', normalizedWorkspacePath),
         ]),
       );
 
@@ -50,14 +56,16 @@ class DatabaseProjectRepository extends IProjectRepository {
   @override
   Future<Either<Failure, ProjectEntity?>> getProject(Directory path) async {
     try {
-      final recordSnapshot  = await _store.findFirst(_databaseInstance, finder: Finder(filter: Filter.equals('path', path.path)));
+      final normalizedPath = p.normalize(path.path);
+
+      final recordSnapshot  = await _store.findFirst(_databaseInstance, finder: Finder(filter: Filter.equals('path', normalizedPath)));
 
       if (recordSnapshot  == null ) {
-        return Left(DatabaseFailure("Project not found"));
+        return Left(NotFoundFailure("Project not found"));
       }
 
       if(recordSnapshot.value is! Map<String, dynamic>) {
-        return Left(DatabaseFailure("Project format is invalid"));
+        return Left(InvalidFormatFailure("Project format is invalid"));
       }
 
       return Right(ProjectEntity.fromMap(recordSnapshot.value as Map<String, dynamic>));
@@ -72,11 +80,11 @@ class DatabaseProjectRepository extends IProjectRepository {
       final recordSnapshots = await _store.find(_databaseInstance);
 
       if (recordSnapshots.isEmpty) {
-        return Left(DatabaseFailure("No projects found"));
+        return Left(NotFoundFailure("No projects found"));
       }
 
       if (recordSnapshots.any((snapshot) => snapshot.value is! Map<String, dynamic>)) {
-        return Left(DatabaseFailure("There is project with invalid format"));
+        return Left(InvalidFormatFailure("There is project with invalid format"));
       }
 
       return Right(recordSnapshots.map((snapshot) => ProjectEntity.fromMap(snapshot.value as Map<String, dynamic>)).toList());
@@ -88,14 +96,16 @@ class DatabaseProjectRepository extends IProjectRepository {
   @override
   Future<Either<Failure, List<ProjectEntity>>> getProjectsByWorkspace(Directory workspacePath) async {
     try {
-      final recordSnapshots = await _store.find(_databaseInstance, finder: Finder(filter: Filter.equals('workspacePath', workspacePath.path)));
+      final normalizedPath = p.normalize(workspacePath.path);
+
+      final recordSnapshots = await _store.find(_databaseInstance, finder: Finder(filter: Filter.equals('workspacePath', normalizedPath)));
 
       if (recordSnapshots.isEmpty) {
-        return Left(DatabaseFailure("No projects found"));
+        return Left(NotFoundFailure("No projects found"));
       }
 
       if (recordSnapshots.any((snapshot) => snapshot.value is! Map<String, dynamic>)) {
-        return Left(DatabaseFailure("There is project with invalid format"));
+        return Left(InvalidFormatFailure("There is project with invalid format"));
       }
 
       return Right(recordSnapshots.map((snapshot) => ProjectEntity.fromMap(snapshot.value as Map<String, dynamic>)).toList());
@@ -107,14 +117,17 @@ class DatabaseProjectRepository extends IProjectRepository {
   @override
   Future<Either<Failure, int>> updateProject(ProjectEntity project) async {
     try {
+      final normalizedProjectPath = p.normalize(project.path.path);
+      final normalizedWorkspacePath = p.normalize(project.workspacePath.path);
+
       final finder = Finder(
         filter: Filter.and([
-          Filter.equals('path', project.path.path),
-          Filter.equals('workspacePath', project.workspacePath.path),
+          Filter.equals('path', normalizedProjectPath),
+          Filter.equals('workspacePath', normalizedWorkspacePath),
         ]),
       );
 
-      var updatedRecords = await _store.update(_databaseInstance, project, finder: finder);
+      var updatedRecords = await _store.update(_databaseInstance, project.toMap(), finder: finder);
 
       return Right(updatedRecords);
     } catch (e) {

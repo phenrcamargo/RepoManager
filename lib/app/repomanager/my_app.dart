@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:repomanager/app/repomanager/shared/route/routes.dart';
+import 'package:repomanager/app/repomanager/shared/theme/theme_provider.dart';
 
 class MyApp extends StatelessWidget {
-  final bool isDarkTheme = true;
-
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
+
+    if (!themeProvider.isInitialized) {
+      return const Center(child: CircularProgressIndicator(color: Colors.white, strokeWidth: 5, ));
+    }
+
     return MaterialApp(
       title: 'RepoManager',
       theme: _lightTheme(),
       darkTheme: _darkTheme(),
-      themeMode: isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+      themeMode: themeProvider.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/',
       routes: routes,
     );

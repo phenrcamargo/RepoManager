@@ -1,4 +1,5 @@
 import 'package:path/path.dart';
+import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:repomanager/app/repomanager/domain/database/database_config.dart';
@@ -8,13 +9,17 @@ class SembastConfig extends IDatabaseConfig<Database> {
 
   @override
   Future<void> init() async {
-    if (_database != null) return;
+    try {
+      if (_database != null) return;
 
-    final dir = await getApplicationDocumentsDirectory();
-    await dir.create(recursive: true);
+      final dir = await getApplicationDocumentsDirectory();
+      await dir.create(recursive: true);
 
-    final dbPath = join(dir.path, 'database.db');
-    _database = await databaseFactoryIo.openDatabase(dbPath);
+      final dbPath = join(dir.path, 'database.db');
+      _database = await databaseFactoryIo.openDatabase(dbPath);
+    } catch (e) {
+      throw DatabaseFailure(e.toString());
+    }
   }
 
   @override

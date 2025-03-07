@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 import 'package:repomanager/app/repomanager/domain/failure/failure.dart';
-import 'package:repomanager/app/repomanager/shared/either/either.dart';
+import 'package:repomanager/app/repomanager/common/either/either.dart';
 
 abstract class IWorkspaceRepository {
   Future<Either<Failure, List<WorkSpaceEntity>>> getWorkspaces();

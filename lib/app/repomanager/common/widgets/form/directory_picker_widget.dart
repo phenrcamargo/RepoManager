@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/common/extension/buildcontext_extension.dart';
 
 class DirectoryPickerWidget extends StatefulWidget {
   final TextEditingController directoryController;

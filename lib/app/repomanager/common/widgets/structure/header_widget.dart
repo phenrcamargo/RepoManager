@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
-import 'package:repomanager/app/repomanager/shared/theme/theme_provider.dart';
+import 'package:repomanager/app/repomanager/common/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/common/theme/theme_provider.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});

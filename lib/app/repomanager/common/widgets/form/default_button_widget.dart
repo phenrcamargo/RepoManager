@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/common/extension/buildcontext_extension.dart';
 
 class DefaultButtonWidget extends StatelessWidget {
   final String text;

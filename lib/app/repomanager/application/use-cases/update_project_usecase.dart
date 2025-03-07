@@ -1,7 +1,7 @@
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
 import 'package:repomanager/app/repomanager/domain/repository/project_repository.dart';
 import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.dart';
-import 'package:repomanager/app/repomanager/shared/either/either.dart';
+import 'package:repomanager/app/repomanager/common/either/either.dart';
 
 class UpdateProjectUseCaseParams implements IUseCaseParams<UpdateProjectUseCase> {
   final ProjectEntity projectEntity;

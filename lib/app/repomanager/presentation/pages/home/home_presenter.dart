@@ -2,7 +2,7 @@ import 'package:repomanager/app/repomanager/application/use-cases/create_workspa
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
 import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
-import 'package:repomanager/app/repomanager/shared/injector/injector.dart';
+import 'package:repomanager/app/repomanager/common/injector/injector.dart';
 
 class HomePresenter {
   final HomeStore homeStore;

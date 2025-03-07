@@ -1,17 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:repomanager/app/repomanager/presentation/pages/home/home_presenter.dart';
 import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
-import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/form/default_button_widget.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/form/select_input_widget.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/reuse/project_card_widget.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/structure/add_project_window.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/structure/add_workspace_window.dart';
+import 'package:repomanager/app/repomanager/common/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/common/widgets/form/default_button_widget.dart';
+import 'package:repomanager/app/repomanager/common/widgets/form/select_input_widget.dart';
+import 'package:repomanager/app/repomanager/common/widgets/reuse/project_card_widget.dart';
+import 'package:repomanager/app/repomanager/common/widgets/structure/add_project_window.dart';
+import 'package:repomanager/app/repomanager/common/widgets/structure/add_workspace_window.dart';
 
-import 'package:repomanager/app/repomanager/shared/widgets/structure/header_widget.dart';
+import 'package:repomanager/app/repomanager/common/widgets/structure/header_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

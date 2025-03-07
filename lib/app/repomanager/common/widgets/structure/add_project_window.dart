@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/form/directory_picker_widget.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/structure/add_window.dart';
+import 'package:repomanager/app/repomanager/common/widgets/form/directory_picker_widget.dart';
+import 'package:repomanager/app/repomanager/common/widgets/structure/add_window.dart';
 
 class AddProjectWindow extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();

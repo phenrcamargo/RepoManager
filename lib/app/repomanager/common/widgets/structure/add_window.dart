@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/common/extension/buildcontext_extension.dart';
 
 class AddWindow extends StatelessWidget {
   final String title;

@@ -8,7 +8,7 @@ import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.d
 import 'package:repomanager/app/repomanager/infra/failure/already_exists_failure.dart';
 import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
 import 'package:repomanager/app/repomanager/infra/failure/not_found_failure.dart';
-import 'package:repomanager/app/repomanager/shared/either/either.dart';
+import 'package:repomanager/app/repomanager/common/either/either.dart';
 
 
 class CreateProjectUseCaseParams implements IUseCaseParams<CreateProjectUseCase> {

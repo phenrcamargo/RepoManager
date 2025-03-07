@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
-import 'package:repomanager/app/repomanager/shared/extension/buildcontext_extension.dart';
-import 'package:repomanager/app/repomanager/shared/widgets/reuse/icon_text_widget.dart';
+import 'package:repomanager/app/repomanager/common/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/common/widgets/reuse/icon_text_widget.dart';
 
 class ProjectCardWidget extends StatelessWidget {
   ProjectEntity project;

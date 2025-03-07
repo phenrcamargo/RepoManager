@@ -7,7 +7,7 @@ import 'package:repomanager/app/repomanager/domain/repository/project_repository
 import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
 import 'package:repomanager/app/repomanager/infra/failure/invalid_format_failure.dart';
 import 'package:repomanager/app/repomanager/infra/failure/not_found_failure.dart';
-import 'package:repomanager/app/repomanager/shared/either/either.dart';
+import 'package:repomanager/app/repomanager/common/either/either.dart';
 import 'package:path/path.dart' as p;
 import 'package:sembast/sembast.dart';
 

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:repomanager/app/repomanager/application/failure/usecase_failure.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
 import 'package:repomanager/app/repomanager/domain/failure/failure.dart';
 import 'package:repomanager/app/repomanager/domain/repository/workspace_repository.dart';
@@ -8,7 +7,7 @@ import 'package:repomanager/app/repomanager/domain/use-case/use_case_interface.d
 import 'package:repomanager/app/repomanager/infra/failure/already_exists_failure.dart';
 import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
 import 'package:repomanager/app/repomanager/infra/failure/not_found_failure.dart';
-import 'package:repomanager/app/repomanager/shared/either/either.dart';
+import 'package:repomanager/app/repomanager/common/either/either.dart';
 
 class CreateWorkspaceUseCaseParams implements IUseCaseParams<CreateWorkspaceUseCase> {
   Directory path;

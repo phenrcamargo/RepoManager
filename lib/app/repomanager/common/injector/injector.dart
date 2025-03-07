@@ -1,4 +1,4 @@
-import 'package:repomanager/app/repomanager/shared/injector/bind.dart';
+import 'package:repomanager/app/repomanager/common/injector/bind.dart';
 
 class Injector {
   final Map<Type, dynamic> _dependencies = {};
@@ -36,6 +36,6 @@ class Injector {
       throw Exception("Dependency ${T.toString()} not found in Injector.");
     }
 
-    return bind.instance ?? bind.factory!();
+    return bind.getInstance();
   }
 }

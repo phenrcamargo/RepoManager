@@ -70,7 +70,7 @@ class SembastWorkspaceRepository extends IWorkspaceRepository {
         return Left(NotFoundFailure("No workspaces found"));
       }
 
-      if (recordSnapshots.any((snapshot) => snapshot is! Map<String, dynamic>)) {
+      if (recordSnapshots.any((snapshot) => snapshot.value is! Map<String, dynamic>)) {
         return Left(InvalidFormatFailure("There is workspace with invalid format"));
       }
 

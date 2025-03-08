@@ -4,7 +4,7 @@ import 'package:repomanager/app/repomanager/common/extension/buildcontext_extens
 
 class DirectoryPickerWidget extends StatefulWidget {
   final TextEditingController directoryController;
-  final FormFieldValidator<String>? validate;
+  final String? Function(String?)? validate;
 
   const DirectoryPickerWidget(this.directoryController, this.validate, {super.key});
 
@@ -46,6 +46,7 @@ class _DirectoryPickerFormState extends State<DirectoryPickerWidget> {
                 child: const Icon(Icons.info),
               )
             ),
+            style: TextStyle(color: context.theme.colorScheme.onSecondaryContainer),
           ),
         ),
         const SizedBox(width: 10),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repomanager/app/repomanager/presentation/pages/home/home_page.dart';
+import 'package:repomanager/app/repomanager/presentation/pages/home_page.dart';
 
 var routes = <String, WidgetBuilder> {
   '/': (context) => const HomePage(),

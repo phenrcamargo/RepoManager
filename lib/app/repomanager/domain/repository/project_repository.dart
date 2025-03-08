@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:repomanager/app/repomanager/domain/entities/project_entity.dart';
-import 'package:repomanager/app/repomanager/domain/failure/failure.dart';
-import 'package:repomanager/app/repomanager/common/either/either.dart';
+import 'package:repomanager/app/repomanager/common/common.dart';
 
 abstract class IProjectRepository {
   Future<Either<Failure, List<ProjectEntity>>> getProjects();

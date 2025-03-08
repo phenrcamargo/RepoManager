@@ -1,4 +1,4 @@
-import 'package:repomanager/app/repomanager/common/injector/bind.dart';
+import 'package:repomanager/app/repomanager/common/config/injector/bind.dart';
 
 class Injector {
   final Map<Type, dynamic> _dependencies = {};

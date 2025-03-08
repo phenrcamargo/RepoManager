@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:repomanager/app/repomanager/common/injector/injector.dart';
-import 'package:repomanager/app/repomanager/common/theme/theme_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:repomanager/app/repomanager/my_app.dart';
-import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
-import 'package:repomanager/app/repomanager/common/injector/injector_configurator.dart';
+import 'package:repomanager/app/repomanager/common/common.dart';
+import 'package:repomanager/app/repomanager/presentation/stores/home_store.dart';
 
 import 'app/repomanager/domain/database/database_config.dart';
 

@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
+import 'package:repomanager/app/repomanager/common/extension/buildcontext_extension.dart';
+import 'package:repomanager/app/repomanager/common/widgets/form/default_button_widget.dart';
+import 'package:repomanager/app/repomanager/common/widgets/form/default_text_field_widget.dart';
 import 'package:repomanager/app/repomanager/common/widgets/form/directory_picker_widget.dart';
 import 'package:repomanager/app/repomanager/common/widgets/structure/add_window.dart';
 
-class AddWorkspaceWindow extends StatelessWidget {
+class AddWorkspaceWindow extends StatefulWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController _directoryController = TextEditingController();
   final TextEditingController _workspaceNameController = TextEditingController();
@@ -15,15 +18,22 @@ class AddWorkspaceWindow extends StatelessWidget {
   AddWorkspaceWindow({super.key, required this.onSubmit});
 
   @override
+  State<AddWorkspaceWindow> createState() => _AddWorkspaceWindowState();
+}
+
+class _AddWorkspaceWindowState extends State<AddWorkspaceWindow> {
+  @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
     return AddWindow(
         title: 'Add Workspace',
+        height: widget.formKey.currentState == null || widget.formKey.currentState!.validate() ? 0.5 : 0.6,
         addForm: Form(
-          key: formKey,
+          key: widget.formKey,
           child: Column(
             children: [
               DirectoryPickerWidget(
-                _directoryController,
+                  widget._directoryController,
                 (value) {
                   if(value == null || value.isEmpty) {
                     return 'Please select a directory';
@@ -32,12 +42,9 @@ class AddWorkspaceWindow extends StatelessWidget {
                 }
               ),
               const SizedBox(height: 20,),
-              TextFormField(
-                controller: _workspaceNameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Workspace Name',
-                ),
+              DefaultTextFieldWidget(
+                controller: widget._workspaceNameController,
+                labelText: 'Workspace Name',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a workspace name';
@@ -46,12 +53,9 @@ class AddWorkspaceWindow extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20,),
-              TextFormField(
-                controller: _workspaceDescriptionController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Workspace Description',
-                ),
+              DefaultTextFieldWidget(
+                controller: widget._workspaceDescriptionController,
+                labelText: 'Workspace Description',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a workspace description';
@@ -59,17 +63,20 @@ class AddWorkspaceWindow extends StatelessWidget {
                   return null;
                 },
               ),
-              ElevatedButton(
-                child: const Text('Create Workspace'),
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    onSubmit(WorkSpaceEntity(
-                      path: Directory(_directoryController.text),
-                      name: _workspaceNameController.text,
-                      description: _workspaceDescriptionController.text,
-                    ));
-                    Navigator.of(context).pop();
-                  } 
+              const SizedBox(height: 20,),
+              DefaultButtonWidget(
+                text: 'Create Workspace',
+                onClicked: () {
+                  setState(() {
+                    if (widget.formKey.currentState!.validate()) {
+                      widget.onSubmit(WorkSpaceEntity(
+                        path: Directory(widget._directoryController.text),
+                        name: widget._workspaceNameController.text,
+                        description: widget._workspaceDescriptionController.text,
+                      ));
+                      Navigator.of(context).pop();
+                    }
+                  });
                 },                
               ),
             ],

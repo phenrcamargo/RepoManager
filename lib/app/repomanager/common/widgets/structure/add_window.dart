@@ -16,7 +16,9 @@ class AddWindow extends StatelessWidget {
     ThemeData theme = context.theme;
 
     return Dialog(
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.linear,
         decoration: BoxDecoration(
           color: theme.cardTheme.color,
           borderRadius: BorderRadius.circular(25),

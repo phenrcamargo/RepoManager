@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:repomanager/app/repomanager/common/route/routes.dart';
-import 'package:repomanager/app/repomanager/common/theme/theme_provider.dart';
+import 'package:repomanager/app/repomanager/common/common.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

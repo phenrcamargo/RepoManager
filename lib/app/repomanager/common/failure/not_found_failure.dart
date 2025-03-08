@@ -1,4 +1,4 @@
-import 'package:repomanager/app/repomanager/domain/failure/failure.dart';
+import 'package:repomanager/app/repomanager/common/failure/failure.dart';
 
 class NotFoundFailure extends Failure {
   NotFoundFailure(super.message);

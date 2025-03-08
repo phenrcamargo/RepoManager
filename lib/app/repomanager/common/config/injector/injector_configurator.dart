@@ -5,8 +5,8 @@ import 'package:repomanager/app/repomanager/domain/repository/workspace_reposito
 import 'package:repomanager/app/repomanager/infra/database/sembast_config.dart';
 import 'package:repomanager/app/repomanager/infra/repository/sembast_project_repository.dart';
 import 'package:repomanager/app/repomanager/infra/repository/sembast_workspace_repository.dart';
-import 'package:repomanager/app/repomanager/common/injector/bind.dart';
-import 'package:repomanager/app/repomanager/common/injector/injector.dart';
+import 'package:repomanager/app/repomanager/common/config/injector/bind.dart';
+import 'package:repomanager/app/repomanager/common/config/injector/injector.dart';
 import 'package:sembast/sembast.dart';
 
 class InjectorConfigurator {

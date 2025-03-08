@@ -1,14 +1,28 @@
 import 'package:repomanager/app/repomanager/application/use-cases/create_workspace_usecase.dart';
+import 'package:repomanager/app/repomanager/application/use-cases/get_all_workspaces_usecase.dart';
 import 'package:repomanager/app/repomanager/domain/entities/workspace_entity.dart';
-import 'package:repomanager/app/repomanager/infra/failure/database_failure.dart';
-import 'package:repomanager/app/repomanager/presentation/pages/home/home_store.dart';
-import 'package:repomanager/app/repomanager/common/injector/injector.dart';
+import 'package:repomanager/app/repomanager/presentation/stores/home_store.dart';
+import 'package:repomanager/app/repomanager/common/common.dart';
 
 class HomePresenter {
   final HomeStore homeStore;
   final CreateWorkspaceUseCase createWorkspaceUseCase = Injector.instance.get<CreateWorkspaceUseCase>();
+  final GetAllWorkspaceUseCase getWorkspacesUseCase = Injector.instance.get<GetAllWorkspaceUseCase>();
 
-  HomePresenter(this.homeStore);
+  HomePresenter(this.homeStore) { loadWorkspaces(); }
+
+  Future<void> loadWorkspaces() async {
+    try {
+        var response = await getWorkspacesUseCase.execute();
+
+        response.fold(
+          (error) => throw error,
+          (value) => homeStore.setWorkspaces(value),
+        );
+    } catch (e) {
+      if (e is DatabaseFailure) print(e.message);
+    }
+  }
 
   Future<void> addWorkspace(WorkSpaceEntity workspace) async {
     try {

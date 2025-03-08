@@ -10,11 +10,12 @@ class SelectInputWidget extends StatefulWidget {
 }
 
 class _SelectInputWidgetState extends State<SelectInputWidget> {
+  String? selectedItem;
+
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final List<String> items = widget.items;
-    String? selectedItem;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

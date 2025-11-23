@@ -1,35 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sembast/sembast.dart';
+import 'package:repomanager/app/repomanager/core/presentation/theme/theme_provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:repomanager/app/repomanager/my_app.dart';
-import 'package:repomanager/app/repomanager/common/common.dart';
-import 'package:repomanager/app/repomanager/presentation/stores/home_store.dart';
 
-import 'app/repomanager/domain/database/database_config.dart';
+import 'app_modules.dart';
 
 void main() async  {
-  await _configureDependencyInjector();
-  await _initDatabase();
   await _configureWindowManager();
+
+  for (final module in appModules) {
+    module.registerBinds();
+  }
+
   runApp(
     MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => HomeStore()),
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],
         child: const MyApp(),
     ),
   );
-}
-
-Future<void> _configureDependencyInjector() async {
-  InjectorConfigurator.configure(Injector.instance);
-  await Future.delayed(Duration.zero);
-}
-
-Future<void> _initDatabase() async {
-  await Injector.instance.get<IDatabaseConfig<Database>>().init();
 }
 
 Future<void> _configureWindowManager() async {

@@ -1,0 +1,1 @@
+typedef NullableStringCallback = String? Function(String?)?;

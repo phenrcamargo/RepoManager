@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:repomanager/app/repomanager/common/common.dart';
+import 'package:repomanager/app/repomanager/core/presentation/theme/theme_provider.dart';
+import 'package:repomanager/app_modules.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,7 +21,9 @@ class MyApp extends StatelessWidget {
       darkTheme: _darkTheme(),
       themeMode: themeProvider.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/',
-      routes: routes,
+      routes: {
+        for (final module in appModules) ...module.routes
+      },
     );
   }
 
